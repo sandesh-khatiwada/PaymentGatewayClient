@@ -55,29 +55,22 @@ export class CheckoutComponent {
         // Remove refId; let backend generate it
       };
       this.paymentService.initiateCheckout(request).subscribe({
-        next: (response) => {
-          console.log(response);
-          if (response.success && response.data?.redirectURL) {
+
+  next: (response) => {
+        if (response.success && response.data?.redirectURL) {
             this.paymentService.setTransactionData({
-              initiator: 'eCom1',
-              amount: this.selectedProduct!.price,
-              particular: this.selectedProduct!.name,
-              remarks: this.remarksForm.value.remarks,
-              refId: response.data.refId // Store backend-generated refId
-            });
-            // Remove /api/auth prefix for Angular routing
-            const redirectPath = response.data.redirectURL.replace('/api/auth', '');
-            this.router.navigateByUrl(redirectPath);
-          } else {
-            this.errorMessage = response.message || 'Checkout failed: No redirect URL';
-          }
-        },
-        error: (err) => {
-          this.errorMessage = err.error?.message || 'Checkout failed';
-          if (err.error?.errors) {
-            this.errorMessage += ': ' + err.error.errors.join(', ');
-          }
-        }
+            initiator: 'eCom1',
+            amount: this.selectedProduct!.price,
+            particular: this.selectedProduct!.name,
+            remarks: this.remarksForm.value.remarks,
+            refId: response.data.refId
+        });
+    const redirectPath = response.data.redirectURL.replace('/api/auth', '');
+    this.router.navigateByUrl(redirectPath);
+  } else {
+    this.errorMessage = response.message || 'Checkout failed';
+  }
+}
       });
     }
   }

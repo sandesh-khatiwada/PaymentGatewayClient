@@ -1,11 +1,13 @@
+// src/app/services/payment.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class PaymentService {
   private apiUrl = 'http://localhost:8080/api';
-  private transactionData: any = null;
+  private transactionData: TransactionData | null = null;
+  private errorMessage: string | null = null;
 
   constructor(private http: HttpClient) {}
 
@@ -14,32 +16,39 @@ export class PaymentService {
   }
 
   login(request: LoginRequestDTO): Observable<LoginResponse> {
-    return of({ redirectUrl: `/otp/${request.refId}` });
+    return this.http.post<LoginResponse>(`${this.apiUrl}/auth/login`, request);
+  }
+
+  sendOtp(request: OtpRequest): Observable<OtpResponse> {
+    return this.http.post<OtpResponse>(`${this.apiUrl}/otp`, request);
+  }
+
+  verifyOtp(request: OtpVerifyRequestDTO): Observable<OtpVerifyResponse> {
+    return this.http.post<OtpVerifyResponse>(`${this.apiUrl}/accept/${request.refId}`, { otp: request.otp });
   }
 
   confirmTransaction(refId: string): Observable<ConfirmResponse> {
     return this.http.post<ConfirmResponse>(`${this.apiUrl}/auth/process/${refId}`, {});
   }
 
-  verifyOtp(request: OtpRequestDTO): Observable<OtpResponse> {
-    // Actual API call
-    return this.http.post<OtpResponse>(`${this.apiUrl}/auth/otp/${request.refId}`, { otp: request.otp });
-    // For testing, use:
-    // return of({
-    //   success: true,
-    //   status: 'OK',
-    //   code: '000',
-    //   message: 'OTP verified successfully',
-    //   redirectUrl: `/confirmation/${request.refId}`
-    // });
+  getTransactionStatus(refId: string): Observable<AuthCheckResponse> {
+    return this.http.get<AuthCheckResponse>(`${this.apiUrl}/auth/login/${refId}`);
   }
 
-  setTransactionData(data: any) {
+  setTransactionData(data: TransactionData) {
     this.transactionData = data;
   }
 
-  getTransactionData() {
+  getTransactionData(): TransactionData | null {
     return this.transactionData;
+  }
+
+  setErrorMessage(message: string | null) {
+    this.errorMessage = message;
+  }
+
+  getErrorMessage(): string | null {
+    return this.errorMessage;
   }
 }
 
@@ -67,7 +76,48 @@ interface LoginRequestDTO {
 }
 
 interface LoginResponse {
+  success: boolean;
+  status: string;
+  code: string;
+  message: string;
+  data: { token: string; username: string; email: string } | null;
+  errors: string[] | null;
+  timestamp: string;
+}
+
+interface OtpRequest {
+  refId: string;
+}
+
+interface OtpResponse {
+  success: boolean;
+  status: string;
+  code: string;
+  message: string;
+  data: null;
+  errors: string[] | null;
+  timestamp: string;
+}
+
+interface OtpVerifyRequestDTO {
+  refId: string;
+  otp: string;
+}
+
+interface OtpVerifyResponse {
+  success: boolean;
+  status: string;
+  code: string;
+  message: string;
   redirectUrl: string;
+}
+
+interface TransactionData {
+  initiator: string;
+  amount: number;
+  particular: string;
+  remarks: string;
+  refId?: string;
 }
 
 interface ConfirmResponse {
@@ -77,15 +127,12 @@ interface ConfirmResponse {
   message: string;
 }
 
-interface OtpRequestDTO {
-  refId: string;
-  otp: string;
-}
-
-interface OtpResponse {
+interface AuthCheckResponse {
   success: boolean;
   status: string;
   code: string;
   message: string;
-  redirectUrl: string;
+  data: null;
+  errors: string[] | null;
+  timestamp: string;
 }
