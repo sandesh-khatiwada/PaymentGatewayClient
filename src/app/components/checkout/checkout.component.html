@@ -1,0 +1,30 @@
+<div class="container">
+  <h1 class="title">eCommerce Checkout</h1>
+  <div class="products-grid">
+    <div *ngFor="let product of products" class="product-card">
+      <h2 class="product-name">{{ product.name }}</h2>
+      <p class="product-price">Rs.{{ product.price.toFixed(2) }}</p>
+      <button class="btn btn-primary" (click)="openModal(product)">Proceed to Pay</button>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" *ngIf="showModal">
+    <div class="modal-content">
+      <h2>Enter Remarks</h2>
+      <form [formGroup]="remarksForm" (ngSubmit)="proceedToPay()">
+        <div class="form-group">
+          <label for="remarks">Remarks</label>
+          <input id="remarks" formControlName="remarks" placeholder="Enter remarks">
+          <div class="error" *ngIf="remarksForm.get('remarks')?.hasError('required') && remarksForm.get('remarks')?.touched">
+            Remarks is required
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary" [disabled]="remarksForm.invalid">Proceed</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

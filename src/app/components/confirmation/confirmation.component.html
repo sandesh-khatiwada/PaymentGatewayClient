@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="confirmation-card">
+    <h1 class="title">Transaction Confirmation</h1>
+    <div class="balance">Current Balance: Rs.{{ balance.toFixed(2) }}</div>
+    <div class="transaction-details">
+      <div class="detail-item">
+        <span class="label">Initiator:</span>
+        <span class="value">{{ transactionData?.initiator || 'N/A' }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="label">Amount:</span>
+        <span class="value">Rs.{{ transactionData && transactionData.amount != null ? transactionData.amount.toFixed(2) : '0.00' }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="label">Particular:</span>
+        <span class="value">{{ transactionData?.particular || 'N/A' }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="label">Remarks:</span>
+        <span class="value">{{ transactionData?.remarks || 'N/A' }}</span>
+      </div>
+      <div class="error" *ngIf="!transactionData">Transaction data is missing</div>
+      <button type="button" class="btn btn-primary" (click)="confirm()" [disabled]="!transactionData">Confirm</button>
+    </div>
+  </div>
+</div>
