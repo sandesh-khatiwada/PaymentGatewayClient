@@ -1,4 +1,3 @@
-// src/app/components/login/login.component.ts
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -15,8 +14,9 @@ import { CommonModule } from '@angular/common';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   refId: string = '';
-  isLoading: boolean = true;
+  isLoading: boolean = true; 
   errorMessage: string | null = null;
+  loadingState: 'idle' | 'loggingIn' | 'sendingOtp' = 'idle';
 
   constructor(
     private fb: FormBuilder,
@@ -56,7 +56,9 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    if (this.loginForm.valid) {
+    if (this.loginForm.valid && this.loadingState === 'idle') {
+      this.loadingState = 'loggingIn';
+      this.errorMessage = null; // Clear previous errors
       const loginRequest: LoginRequestDTO = {
         refId: this.refId,
         usernameOrEmail: this.loginForm.value.usernameOrEmail,
@@ -66,7 +68,7 @@ export class LoginComponent implements OnInit {
         next: (response: LoginResponse) => {
           if (response.success && response.data?.token) {
             localStorage.setItem('jwt', response.data.token);
-            // Send OTP request
+            this.loadingState = 'sendingOtp';
             const otpRequest: OtpRequest = { refId: this.refId };
             this.paymentService.sendOtp(otpRequest).subscribe({
               next: (otpResponse: OtpResponse) => {
@@ -74,18 +76,22 @@ export class LoginComponent implements OnInit {
                   this.router.navigateByUrl(`/otp/${this.refId}`);
                 } else {
                   this.errorMessage = otpResponse.errors?.join(', ') || otpResponse.message || 'Failed to send OTP';
+                  this.loadingState = 'idle';
                 }
               },
               error: (err) => {
                 this.errorMessage = err.error?.errors?.join(', ') || err.error?.message || 'Failed to send OTP';
+                this.loadingState = 'idle';
               }
             });
           } else {
             this.errorMessage = response.errors?.join(', ') || response.message || 'Login failed';
+            this.loadingState = 'idle';
           }
         },
         error: (err) => {
           this.errorMessage = err.error?.errors?.join(', ') || err.error?.message || 'Login failed';
+          this.loadingState = 'idle';
         }
       });
     }

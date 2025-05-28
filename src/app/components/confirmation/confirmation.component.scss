@@ -1,3 +1,40 @@
+.container {
+  position: relative;
+  padding: 1rem;
+}
+
+.user-profile {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.user-icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+}
+
+.username {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.balance {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #4b5563;
+}
+
 .confirmation-card {
   background-color: #fff;
   border-radius: 12px;
@@ -10,14 +47,6 @@
 .title {
   font-size: 1.5rem;
   font-weight: 600;
-  text-align: center;
-  margin-bottom: 1.5rem;
-  color: #1f2937;
-}
-
-.balance {
-  font-size: 1.2rem;
-  font-weight: bold;
   text-align: center;
   margin-bottom: 1.5rem;
   color: #1f2937;
@@ -42,8 +71,27 @@
   color: #1f2937;
 }
 
+.error {
+  color: #dc2626;
+  font-size: 14px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.success-message {
+  text-align: center;
+  color: #15803d;
+  font-size: 16px;
+}
+
+.error-message {
+  text-align: center;
+  color: #dc2626;
+  font-size: 16px;
+}
+
 .btn {
-  width: 100%;
+  width: 100%; /* Fixed typo from 'width: 100' */
   padding: 12px;
   border-radius: 8px;
   cursor: pointer;
@@ -58,4 +106,16 @@
 
 .btn-primary:hover {
   background-color: #1e40af;
+}
+
+.btn-primary:disabled {
+  background-color: #93c5fd;
+  cursor: not-allowed;
+}
+
+.loading {
+  text-align: center;
+  font-size: 1.5rem;
+  color: #4b5563;
+  margin-top: 2rem;
 }

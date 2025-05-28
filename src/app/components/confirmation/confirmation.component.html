@@ -1,26 +1,50 @@
-<div class="container">
-  <div class="confirmation-card">
-    <h1 class="title">Transaction Confirmation</h1>
-    <div class="balance">Current Balance: Rs.{{ balance.toFixed(2) }}</div>
-    <div class="transaction-details">
-      <div class="detail-item">
-        <span class="label">Initiator:</span>
-        <span class="value">{{ transactionData?.initiator || 'N/A' }}</span>
-      </div>
-      <div class="detail-item">
-        <span class="label">Amount:</span>
-        <span class="value">Rs.{{ transactionData && transactionData.amount != null ? transactionData.amount.toFixed(2) : '0.00' }}</span>
-      </div>
-      <div class="detail-item">
-        <span class="label">Particular:</span>
-        <span class="value">{{ transactionData?.particular || 'N/A' }}</span>
-      </div>
-      <div class="detail-item">
-        <span class="label">Remarks:</span>
-        <span class="value">{{ transactionData?.remarks || 'N/A' }}</span>
-      </div>
-      <div class="error" *ngIf="!transactionData">Transaction data is missing</div>
-      <button type="button" class="btn btn-primary" (click)="confirm()" [disabled]="!transactionData">Confirm</button>
+<div class="container" *ngIf="!isLoading; else loading">
+  <div class="user-profile">
+    <span class="user-icon" style="font-size: 30px;">🧑</span>
+    <div class="user-details">
+      <div class="username">{{ username || "N/A" }}</div>
+      <div class="balance">Balance: Rs.{{ balance != null ? balance.toFixed(2) : "0.00" }}</div>
     </div>
   </div>
+  <div class="confirmation-card">
+    <ng-container *ngIf="!showResult; else result">
+      <h1 class="title">Transaction Confirmation</h1>
+      <div class="transaction-details">
+        <div class="detail-item">
+          <span class="label">Initiator:</span>
+          <span class="value">{{ transactionData?.initiator || "N/A" }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Amount:</span>
+          <span class="value">Rs.{{ transactionData && transactionData.amount != null ? transactionData.amount.toFixed(2) : "0.00" }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Particular:</span>
+          <span class="value">{{ transactionData?.particular || "N/A" }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Remarks:</span>
+          <span class="value">{{ transactionData?.remarks || "N/A" }}</span>
+        </div>
+        <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
+        <button type="button" class="btn btn-primary" (click)="confirm()" [disabled]="!transactionData || balance == null">Confirm</button>
+      </div>
+    </ng-container>
+    <ng-template #result>
+      <div *ngIf="successMessage" class="success-message">
+        <h1 class="title">Success</h1>
+        <p>{{ successMessage }}</p>
+        <p>Redirecting...</p>
+      </div>
+      <div *ngIf="errorMessage" class="error-message">
+        <h1 class="title">Transaction Failed</h1>
+        <p>{{ errorMessage }}</p>
+        <p>Redirecting...</p>
+      </div>
+    </ng-template>
+  </div>
 </div>
+
+<ng-template #loading>
+  <div class="loading">Loading...</div>
+</ng-template>

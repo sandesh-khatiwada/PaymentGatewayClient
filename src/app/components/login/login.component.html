@@ -1,8 +1,9 @@
-<!-- src/app/components/login/login.component.html -->
 <div class="container" *ngIf="!isLoading; else loading">
   <div class="login-card">
     <h1 class="title">Log In</h1>
     <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
+    <div class="loading-message" *ngIf="loadingState === 'loggingIn'">Logging In...</div>
+    <div class="loading-message" *ngIf="loadingState === 'sendingOtp'">Sending OTP...</div>
     <form [formGroup]="loginForm" (ngSubmit)="login()">
       <div class="form-group">
         <label for="usernameOrEmail">Username or Email</label>
@@ -21,7 +22,7 @@
           Password must be at least 6 characters
         </div>
       </div>
-      <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Log In</button>
+      <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid || loadingState !== 'idle'">Log In</button>
     </form>
   </div>
 </div>

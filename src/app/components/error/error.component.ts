@@ -1,4 +1,3 @@
-// src/app/components/error/error.component.ts
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PaymentService } from '../../services/payment.service';
