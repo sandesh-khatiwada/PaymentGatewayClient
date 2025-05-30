@@ -1,9 +1,10 @@
+
 <div class="container" *ngIf="!isLoading; else loading">
   <div class="user-profile">
     <span class="user-icon" style="font-size: 30px;">🧑</span>
     <div class="user-details">
-      <div class="username">{{ username || "N/A" }}</div>
-      <div class="balance">Balance: Rs.{{ balance != null ? balance.toFixed(2) : "0.00" }}</div>
+      <div class="username" style="text-align: left; font-weight: bolder;">{{ username || "N/A" }}</div>
+      <div class="balance">Balance: Rs.{{ balance != null ? balance.toFixed(1) : "0.0" }}</div>
     </div>
   </div>
   <div class="confirmation-card">

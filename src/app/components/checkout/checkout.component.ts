@@ -20,7 +20,7 @@ export class CheckoutComponent {
   showModal = false;
   remarksForm: FormGroup;
   selectedProduct: { name: string; price: number } | null = null;
-  errorMessage: string | null = null; // For error display
+  errorMessage: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -52,25 +52,27 @@ export class CheckoutComponent {
         particular: this.selectedProduct.name,
         remarks: this.remarksForm.value.remarks,
         amount: this.selectedProduct.price
-        // Remove refId; let backend generate it
       };
+      this.errorMessage = null; // Clear previous errors
       this.paymentService.initiateCheckout(request).subscribe({
-
-  next: (response) => {
-        if (response.success && response.data?.redirectURL) {
+        next: (response: CheckoutResponse) => {
+          if (response.success && response.data?.redirectURL) {
             this.paymentService.setTransactionData({
-            initiator: 'eCom1',
-            amount: this.selectedProduct!.price,
-            particular: this.selectedProduct!.name,
-            remarks: this.remarksForm.value.remarks,
-            refId: response.data.refId
-        });
-    const redirectPath = response.data.redirectURL.replace('/api/auth', '');
-    this.router.navigateByUrl(redirectPath);
-  } else {
-    this.errorMessage = response.message || 'Checkout failed';
-  }
-}
+              initiator: 'eCom1',
+              amount: this.selectedProduct!.price,
+              particular: this.selectedProduct!.name,
+              remarks: this.remarksForm.value.remarks,
+              refId: response.data.refId
+            });
+            const redirectPath = response.data.redirectURL.replace('/api/auth', '');
+            this.router.navigateByUrl(redirectPath);
+          } else {
+            this.errorMessage = response.errors?.join(', ') || response.message || 'Checkout failed';
+          }
+        },
+        error: (err) => {
+          this.errorMessage = err.error?.errors?.join(', ') || err.error?.message || 'Failed to initiate checkout';
+        }
       });
     }
   }
@@ -81,4 +83,14 @@ interface CheckoutRequestDTO {
   particular: string;
   remarks: string;
   amount: number;
+}
+
+interface CheckoutResponse {
+  success: boolean;
+  status: string;
+  code: string;
+  message: string;
+  data: { redirectURL: string; refId: string } | null;
+  errors: string[] | null;
+  timestamp: string;
 }

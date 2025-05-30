@@ -12,6 +12,7 @@
   <div class="modal" *ngIf="showModal">
     <div class="modal-content">
       <h2>Enter Remarks</h2>
+      <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
       <form [formGroup]="remarksForm" (ngSubmit)="proceedToPay()">
         <div class="form-group">
           <label for="remarks">Remarks</label>
