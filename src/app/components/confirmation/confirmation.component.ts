@@ -39,10 +39,10 @@ export class ConfirmationComponent implements OnInit {
             this.username = user.data?.username || "Unknown";
             this.balance = user.data?.balance ?? 0;
             this.transactionData = this.paymentService.getTransactionData();
-            if (!this.transactionData && paymentRequest.data && user.data) {
+            if (!this.transactionData && paymentRequest.data && user.data){
               // Map paymentRequest.data to TransactionData
               this.transactionData = {
-                initiator: user.data.username,
+                initiator: user.data?.username,
                 amount: paymentRequest.data.amount,
                 particular: paymentRequest.data.particular,
                 remarks: paymentRequest.data.remarks,

@@ -1,4 +1,3 @@
-
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
@@ -32,7 +31,7 @@ export class PaymentService {
   }
 
   validatePaymentRequest(refId: string): Observable<PaymentRequestValidationResponse> {
-    return this.http.get<PaymentRequestValidationResponse>(`${this.apiUrl}/payment-requests/${refId}`);
+    return this.http.post<PaymentRequestValidationResponse>(`${this.apiUrl}/payment-requests/status`, { refId });
   }
 
   processTransaction(refId: string): Observable<ProcessTransactionResponse> {
