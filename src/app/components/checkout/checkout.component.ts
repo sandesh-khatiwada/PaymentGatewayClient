@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router } from '@angular/router';
 import { PaymentService } from '../../services/payment.service';
 import { CommonModule } from '@angular/common';
+import { CheckoutRequestDTO, CheckoutResponse} from '../../model/PaymentService.model';
+
 
 @Component({
   selector: 'app-checkout',
@@ -78,19 +80,3 @@ export class CheckoutComponent {
   }
 }
 
-interface CheckoutRequestDTO {
-  application: string;
-  particular: string;
-  remarks: string;
-  amount: number;
-}
-
-interface CheckoutResponse {
-  success: boolean;
-  status: string;
-  code: string;
-  message: string;
-  data: { redirectURL: string; refId: string } | null;
-  errors: string[] | null;
-  timestamp: string;
-}

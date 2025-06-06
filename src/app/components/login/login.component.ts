@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { ActivatedRoute, Router } from '@angular/router';
 import { PaymentService } from '../../services/payment.service';
 import { CommonModule } from '@angular/common';
+import { AuthCheckResponse, LoginRequestDTO, LoginResponse, OtpRequest, OtpResponse } from '../../model/PaymentService.model';
 
 @Component({
   selector: 'app-login',
@@ -96,44 +97,4 @@ export class LoginComponent implements OnInit {
       });
     }
   }
-}
-
-interface AuthCheckResponse {
-  success: boolean;
-  status: string;
-  code: string;
-  message: string;
-  data: null;
-  errors: string[] | null;
-  timestamp: string;
-}
-
-interface LoginRequestDTO {
-  refId: string;
-  usernameOrEmail: string;
-  password: string;
-}
-
-interface LoginResponse {
-  success: boolean;
-  status: string;
-  code: string;
-  message: string;
-  data: { token: string; username: string; email: string } | null;
-  errors: string[] | null;
-  timestamp: string;
-}
-
-interface OtpRequest {
-  refId: string;
-}
-
-interface OtpResponse {
-  success: boolean;
-  status: string;
-  code: string;
-  message: string;
-  data: null;
-  errors: string[] | null;
-  timestamp: string;
 }

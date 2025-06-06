@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { PaymentService } from "../../services/payment.service";
 import { forkJoin } from "rxjs";
 
+import { TransactionData,ProcessTransactionResponse,UserResponse } from "../../model/PaymentService.model";
+
 @Component({
   selector: "app-confirmation",
   standalone: true,
@@ -114,47 +116,3 @@ export class ConfirmationComponent implements OnInit {
   }
 }
 
-interface TransactionData {
-  initiator: string;
-  amount: number;
-  particular: string;
-  remarks: string;
-  refId?: string;
-}
-
-interface PaymentRequestValidationResponse {
-  success: boolean;
-  status: string;
-  code: string;
-  message: string;
-  data: {
-    application: string;
-    amount: number;
-    particular: string;
-    remarks: string;
-    refId: string;
-    redirectURL: string | null;
-  } | null;
-  errors: string[] | null;
-  timestamp: string;
-}
-
-interface ProcessTransactionResponse {
-  success: boolean;
-  status: string;
-  code: string;
-  message: string;
-  data: { successURL: string; failureURL: string } | null;
-  errors: string[] | null;
-  timestamp: string;
-}
-
-interface UserResponse {
-  success: boolean;
-  status: string;
-  code: string;
-  message: string;
-  data: { id: number; username: string; email: string; balance: number } | null;
-  errors: string[] | null;
-  timestamp: string;
-}

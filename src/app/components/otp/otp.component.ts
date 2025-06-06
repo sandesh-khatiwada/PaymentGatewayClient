@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from "@angular/forms";
 import { PaymentService } from "../../services/payment.service";
 import { CommonModule } from "@angular/common";
+import { OtpValidationResponse, OtpVerifyRequestDTO, OtpVerifyResponse } from "../../model/PaymentService.model";
 
 @Component({
   selector: "app-otp",
@@ -108,27 +109,5 @@ export class OtpComponent implements OnInit {
   }
 }
 
-interface OtpValidationResponse {
-  success: boolean;
-  status: string;
-  code: string;
-  message: string;
-  data: null;
-  errors: string[] | null;
-  timestamp: string;
-}
 
-interface OtpVerifyRequestDTO {
-  otp: string;
-  refId: string;
-}
 
-interface OtpVerifyResponse {
-  success: boolean;
-  status: string;
-  code: string;
-  message: string;
-  data: null;
-  errors: string[] | null;
-  timestamp: string;
-}
