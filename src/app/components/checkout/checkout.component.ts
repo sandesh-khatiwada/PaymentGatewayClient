@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router } from '@angular/router';
 import { PaymentService } from '../../services/payment.service';
 import { CommonModule } from '@angular/common';
-import { CheckoutRequestDTO, CheckoutResponse} from '../../model/PaymentService.model';
+import { CheckoutRequestDTO, CheckoutResponse} from '../../model/payment.model';
 
 
 @Component({

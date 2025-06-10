@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { ActivatedRoute, Router } from '@angular/router';
 import { PaymentService } from '../../services/payment.service';
 import { CommonModule } from '@angular/common';
-import { AuthCheckResponse, LoginRequestDTO, LoginResponse, OtpRequest, OtpResponse } from '../../model/PaymentService.model';
+import { AuthCheckResponse, LoginRequestDTO, LoginResponse, OtpRequest, OtpResponse } from '../../model/payment.model';
 
 @Component({
   selector: 'app-login',

@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { PaymentService } from "../../services/payment.service";
 import { forkJoin } from "rxjs";
 
-import { TransactionData,ProcessTransactionResponse,UserResponse } from "../../model/PaymentService.model";
+import { TransactionData,ProcessTransactionResponse,UserResponse } from "../../model/payment.model";
 
 @Component({
   selector: "app-confirmation",

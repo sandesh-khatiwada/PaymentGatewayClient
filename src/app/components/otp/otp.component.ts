@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from "@angular/forms";
 import { PaymentService } from "../../services/payment.service";
 import { CommonModule } from "@angular/common";
-import { OtpValidationResponse, OtpVerifyRequestDTO, OtpVerifyResponse } from "../../model/PaymentService.model";
+import { OtpValidationResponse, OtpVerifyRequestDTO, OtpVerifyResponse } from "../../model/payment.model";
 
 @Component({
   selector: "app-otp",

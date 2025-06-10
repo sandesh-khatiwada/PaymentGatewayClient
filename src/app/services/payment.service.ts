@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { CheckoutRequestDTO, CheckoutResponse, LoginRequestDTO, LoginResponse, OtpRequest, OtpResponse, OtpValidationResponse, OtpVerifyRequestDTO, OtpVerifyResponse, PaymentRequestValidationResponse, ProcessTransactionResponse, UserResponse, TransactionData, AuthCheckResponse } from "../model/PaymentService.model";
+import { CheckoutRequestDTO, CheckoutResponse, LoginRequestDTO, LoginResponse, OtpRequest, OtpResponse, OtpValidationResponse, OtpVerifyRequestDTO, OtpVerifyResponse, PaymentRequestValidationResponse, ProcessTransactionResponse, UserResponse, TransactionData, AuthCheckResponse } from "../model/payment.model";
 
 @Injectable({ providedIn: "root" })
 export class PaymentService {
